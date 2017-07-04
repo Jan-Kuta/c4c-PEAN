@@ -4,6 +4,7 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
+var passport = require('passport');
 
 var index = require('./routes/index');
 var userRoute = require('./routes/user');
@@ -28,6 +29,9 @@ app.use(function(req, res, next){
   res.setHeader('Access-Control-Allow-Methods', 'POST, GET, PATCH, DELETE, OPTIONS');
   next();
 });
+
+// Initialise Passport before using the route middleware
+app.use(passport.initialize());
 
 app.use('/api/user', userRoute);
 app.use('/', index);
