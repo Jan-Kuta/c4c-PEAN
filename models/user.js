@@ -20,12 +20,12 @@ module.exports = function(sequelize, DataTypes) {
   // setter for password storing - hash and salt stored instead
   User.prototype.setPassword = function(password){
     this.salt = crypto.randomBytes(16).toString('hex');
-    this.hash = crypto.pbkdf2Sync(password, this.salt, 1000, 64).toString('hex');
+    this.hash = crypto.pbkdf2Sync(password, this.salt, 1000, 64, 'sha1').toString('hex');
   };
 
   // validate the password according to the hash
   User.prototype.validPassword = function(password) {
-    var hash = crypto.pbkdf2Sync(password, this.salt, 1000, 64).toString('hex');
+    var hash = crypto.pbkdf2Sync(password, this.salt, 1000, 64, 'sha1').toString('hex');
     return this.hash === hash;
   };
 
