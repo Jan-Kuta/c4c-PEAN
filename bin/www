@@ -11,7 +11,7 @@ var models = require('../models');
 var passport = require('passport');
 
 //load passport strategies
-require('../config/passport.js')(passport,models.user);
+require('../config/passport.js')(passport,models.User);
 
 /**
  * Get port from environment and store in Express.
