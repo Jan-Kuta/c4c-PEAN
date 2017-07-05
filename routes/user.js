@@ -3,6 +3,12 @@ var passport = require('passport');
 var router = express.Router();
 var User = require('../models').User;
 
+var jwt = require('express-jwt');
+var auth = jwt({
+  secret: process.env.JWT_SECRET,
+  userProperty: 'payload'
+});
+
 var sendJSONresponse = function (res, status, content) {
     res.status(status);
     res.json(content);
@@ -76,12 +82,12 @@ router.post('/login', function (req, res, next) {
 });
 
 // get user byId
-router.get('/:id', function (req, res, next) {
-    console.log("Getting user info: " + req.body.email);
+router.get('/:id', auth, function (req, res) {
+    console.log("Getting user info: " + req.payload);
 
-    res.status(200);
-    res.json({
-        "message": "User found: " + req.body.email
+    sendJSONresponse(res,200,{
+        "message": "User found: " + req.payload
     });
 });
+
 module.exports = router;
