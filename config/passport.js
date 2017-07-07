@@ -1,7 +1,9 @@
 module.exports = function(passport, user) {
   var User = user;
   var LocalStrategy = require('passport-local').Strategy;
+  var FacebookStrategy = require('passport-facebook').Strategy;
 
+  // Local strategy
   passport.use(new LocalStrategy({
       usernameField: 'email'
     },
@@ -26,6 +28,24 @@ module.exports = function(passport, user) {
           return done(err);
         }
       });
+    }
+  ));
+
+  // facebook strategy
+  passport.use(new FacebookStrategy({
+      clientID: process.env.FACEBOOK_APP_ID,
+      clientSecret: process.env.FACEBOOK_APP_SECRET,
+      passReqToCallback: true,
+      callbackURL: '/api/user/auth/facebook/callback'
+    },
+    function(req, accessToken, refreshToken, profile, done){
+      console.log('Profile: ',profile);
+      // run asynchronous
+      /*process.nextTick(function(){
+        console.log('User: ', req.user);*/
+        return done({message: 'Errror'});
+      /*});*/
+      console.log('doene');
     }
   ));
 }

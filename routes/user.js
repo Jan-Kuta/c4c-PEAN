@@ -48,7 +48,7 @@ router.post('/register', function (req, res, next) {
         });
 });
 
-// login user
+// login user - local
 router.post('/login', function (req, res, next) {
     console.log("Loging in user: " + req.body.email);
 
@@ -80,6 +80,18 @@ router.post('/login', function (req, res, next) {
     })(req, res);
     
 });
+
+// login user - facebook
+router.get('/auth/facebook', passport.authenticate('facebook', { scope : 'email' }));
+
+// login user - facebook - callback
+router.get('/auth/facebook/callback',
+  passport.authenticate('facebook', { successRedirect: '/',
+                                      failureRedirect: '/login' })/*,
+  function(req, res) {
+    // Successful authentication, redirect home.
+    res.redirect('/');
+  }*/);
 
 // get user byId
 router.get('/:id', auth, function (req, res) {
