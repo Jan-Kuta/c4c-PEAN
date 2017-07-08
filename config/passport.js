@@ -36,7 +36,7 @@ module.exports = function(passport, user) {
       clientID: process.env.FACEBOOK_APP_ID,
       clientSecret: process.env.FACEBOOK_APP_SECRET,
       passReqToCallback: true,
-      callbackURL: '/api/user/auth/facebook/callback'
+      callbackURL: 'http://localhost:3000/api/user/auth/facebook/callback'
     },
     function(req, accessToken, refreshToken, profile, done){
       console.log('Profile: ',profile);

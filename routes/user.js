@@ -86,12 +86,7 @@ router.get('/auth/facebook', passport.authenticate('facebook', { scope : 'email'
 
 // login user - facebook - callback
 router.get('/auth/facebook/callback',
-  passport.authenticate('facebook', { successRedirect: '/',
-                                      failureRedirect: '/login' })/*,
-  function(req, res) {
-    // Successful authentication, redirect home.
-    res.redirect('/');
-  }*/);
+  passport.authenticate('facebook', { successRedirect: '/', failureRedirect: '/' }));
 
 // get user byId
 router.get('/:id', auth, function (req, res) {
