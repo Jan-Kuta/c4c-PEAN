@@ -1,3 +1,4 @@
+import { AlertService } from './../../alert/alert.service';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 
@@ -10,7 +11,7 @@ import { AuthService } from '../auth.service';
 })
 export class SigninComponent implements OnInit {
 
-  constructor(private authService: AuthService) { }
+  constructor(private authService: AuthService, private alertService: AlertService) { }
 
   ngOnInit() {
   }
@@ -24,7 +25,10 @@ export class SigninComponent implements OnInit {
           console.log(response);
           localStorage.setItem('token', response.token);
         },
-        (error) => console.log(error)
+        (error) => {
+          console.log(error);
+          this.alertService.error('Bad credentials');
+        }
       );
   }
 
