@@ -1,5 +1,4 @@
 import { Http, Headers, Response } from '@angular/http';
-import { Router } from '@angular/router';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import "rxjs/Rx";
@@ -8,7 +7,7 @@ import "rxjs/Rx";
 export class AuthService {
   token: string;
 
-  constructor(private router: Router, private http: Http) {
+  constructor(private http: Http) {
     this.token = localStorage.getItem('token');
   }
 
@@ -46,6 +45,7 @@ export class AuthService {
       .map((response: Response) =>{
         const data = response.json();
         this.token = data.token;
+        localStorage.setItem('token', this.token);
         return data;
       })
       .catch(

@@ -1,3 +1,5 @@
+import { AlertService } from './../../alert/alert.service';
+import { Router } from '@angular/router';
 import { Response } from '@angular/http';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
@@ -11,7 +13,7 @@ import { AuthService } from '../auth.service';
 })
 export class SignupComponent implements OnInit {
 
-  constructor(private authService: AuthService) { }
+  constructor(private router: Router, private authService: AuthService, private alertService: AlertService) { }
 
   ngOnInit() {
   }
@@ -22,8 +24,14 @@ export class SignupComponent implements OnInit {
     const password = form.value.password;
     this.authService.signupUser(username, email, password)
       .subscribe(
-        (response: any) => console.log(response),
-        (error) => console.log(error)
+        (response: any) => {
+          console.log(response);
+          this.router.navigate(['/']);
+        },
+        (error) => {
+          console.log(error);
+          this.alertService.error(error);
+        }
       );
   }
 

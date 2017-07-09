@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { AlertService } from './../../alert/alert.service';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
@@ -11,7 +12,7 @@ import { AuthService } from '../auth.service';
 })
 export class SigninComponent implements OnInit {
 
-  constructor(private authService: AuthService, private alertService: AlertService) { }
+  constructor(private router: Router, private authService: AuthService, private alertService: AlertService) { }
 
   ngOnInit() {
   }
@@ -23,7 +24,7 @@ export class SigninComponent implements OnInit {
       .subscribe(
         (response: any) => {
           console.log(response);
-          localStorage.setItem('token', response.token);
+          this.router.navigate(['/']);          
         },
         (error) => {
           console.log(error);
