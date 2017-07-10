@@ -11,6 +11,7 @@ export class AuthService {
     this.token = localStorage.getItem('token');
   }
 
+  // User registration
   signupUser(username: string, email: string, password: string) {
     const headers = new Headers({'Content-Type': 'application/json'});
     return this.http.post(
@@ -33,6 +34,7 @@ export class AuthService {
       );
   }
 
+  // login user
   signinUser(email: string, password: string) {
     const headers = new Headers({'Content-Type': 'application/json'});
     return this.http.post(
@@ -55,15 +57,26 @@ export class AuthService {
       );
   }
 
+  // login by facebook account
+  facebookLogin(){
+    const headers = new Headers({'Content-Type': 'application/json'});
+    return this.http.get(
+      '/api/user/auth/facebook', 
+      {headers: headers});
+  }
+
+  // logout user
   logout() {
     this.token = null;
     localStorage.clear();
   }
 
+  // get Token
   getToken() {
     return this.token;
   }
 
+  // Check if user is authenticated
   isAuthenticated() {
     return this.token != null;
   }

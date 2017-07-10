@@ -82,11 +82,10 @@ router.post('/login', function (req, res, next) {
 });
 
 // login user - facebook
-router.get('/auth/facebook', passport.authenticate('facebook', { scope : 'email' }));
+router.get('/auth/facebook', passport.authenticate('facebook'));
 
 // login user - facebook - callback
-router.get('/auth/facebook/callback',
-  passport.authenticate('facebook', { successRedirect: '/', failureRedirect: '/' }));
+router.get('/auth/facebook/callback', passport.authenticate('facebook', { successRedirect: '/', failureRedirect: '/', session: false}));
 
 // get user byId
 router.get('/:id', auth, function (req, res) {

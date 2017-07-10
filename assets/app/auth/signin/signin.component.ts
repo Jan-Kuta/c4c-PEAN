@@ -33,4 +33,26 @@ export class SigninComponent implements OnInit {
       );
   }
 
+  onFacebookLogin(){
+
+    var newWindow = window.open('http://localhost:3000/api/user/auth/facebook', 'name', 'height=585, width=770');
+	   if (window.focus) {
+       newWindow.focus();
+     }
+     
+    /*this.authService.facebookLogin()
+      .subscribe(
+        (response: any) => {
+          console.log(response);
+          this.alertService.success('Facebook logged in');          
+        },
+        (error) => {
+          console.log(error);
+          this.alertService.error('Facebook problem');
+        }
+      )*/
+
+
+  }
+
 }

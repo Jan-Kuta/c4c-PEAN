@@ -35,17 +35,34 @@ module.exports = function(passport, user) {
   passport.use(new FacebookStrategy({
       clientID: process.env.FACEBOOK_APP_ID,
       clientSecret: process.env.FACEBOOK_APP_SECRET,
-      passReqToCallback: true,
+     // passReqToCallback: true,
+      profileFields: ['id', 'displayName', 'email'],
       callbackURL: 'http://localhost:3000/api/user/auth/facebook/callback'
     },
-    function(req, accessToken, refreshToken, profile, done){
-      console.log('Profile: ',profile);
+    function(/*req,*/ accessToken, refreshToken, profile, done){
+      /*console.log('Profile: ',profile);
       // run asynchronous
-      /*process.nextTick(function(){
-        console.log('User: ', req.user);*/
-        return done({message: 'Errror'});
-      /*});*/
-      console.log('doene');
+      process.nextTick(function(){
+        //console.log('User: ', req.user);
+        return done(null, profile);
+      });
+      console.log('doene');*/
+      return done(null, profile);
+      User.findOne({where: {email:'kutique@gmail.com'}}).then(function(user) {
+        // Return if user not found in database
+        if (!user) {
+          return done(null, false, {
+            message: 'Bad username or password'
+          });
+        }
+        console.log('User: ', user);
+        return done(null, user);
+      }).catch(function(err){
+        if (err) {
+          console.log('ERROR: ',err);
+          return done(err);
+        }
+      });
     }
   ));
 }
