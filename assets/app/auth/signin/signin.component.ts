@@ -12,11 +12,14 @@ import { AuthService } from '../auth.service';
 })
 export class SigninComponent implements OnInit {
 
-  constructor(private router: Router, private authService: AuthService, private alertService: AlertService) { }
+  redirect: boolean = false;
+
+  constructor(private router: Router, private authService: AuthService, private alertService: AlertService) {}
 
   ngOnInit() {
   }
 
+  // sign in by email and password
   onSignin(form: NgForm) {
     const email = form.value.email;
     const password = form.value.password;
@@ -33,26 +36,19 @@ export class SigninComponent implements OnInit {
       );
   }
 
+  // login by facebook account
   onFacebookLogin(){
+    this.authService.loginFacebook();
+  }
 
-    var newWindow = window.open('http://localhost:3000/api/user/auth/facebook', 'name', 'height=585, width=770');
-	   if (window.focus) {
-       newWindow.focus();
-     }
-     
-    /*this.authService.facebookLogin()
-      .subscribe(
-        (response: any) => {
-          console.log(response);
-          this.alertService.success('Facebook logged in');          
-        },
-        (error) => {
-          console.log(error);
-          this.alertService.error('Facebook problem');
-        }
-      )*/
+  // login by twitter account
+  onTwitterLogin(){
+    this.authService.loginTwitter();
+  }
 
-
+  // login by google account
+  onGoogleLogin(){
+    this.authService.loginGoogle();
   }
 
 }

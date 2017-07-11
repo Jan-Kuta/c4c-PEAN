@@ -81,12 +81,6 @@ router.post('/login', function (req, res, next) {
     
 });
 
-// login user - facebook
-router.get('/auth/facebook', passport.authenticate('facebook'));
-
-// login user - facebook - callback
-router.get('/auth/facebook/callback', passport.authenticate('facebook', { successRedirect: '/', failureRedirect: '/', session: false}));
-
 // get user byId
 router.get('/:id', auth, function (req, res) {
     console.log("Getting user info: " + req.payload);
