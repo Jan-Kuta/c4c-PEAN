@@ -81,6 +81,18 @@ router.post('/login', function (req, res, next) {
     
 });
 
+// login user - facebook
+router.post('/facebook', function (req, res, next) {
+    console.log("Loging in user: " + req.body.email);
+    sendJSONresponse(res,200,{"token": 'token'});
+});
+
+// login user - google
+router.post('/google', function (req, res, next) {
+    console.log("Loging in user: " + req.body.email);
+    sendJSONresponse(res,200,{"token": 'token'});
+});
+
 // get user byId
 router.get('/:id', auth, function (req, res) {
     console.log("Getting user info: " + req.payload);
