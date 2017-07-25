@@ -1,4 +1,4 @@
-import { AuthService } from './auth.service';
+import { Subject } from 'rxjs/Subject';
 import { AlertService } from './../alert/alert.service';
 import { Http, Headers, Response } from '@angular/http';
 import { Injectable } from '@angular/core';
@@ -9,6 +9,7 @@ const Hello: any = require('hellojs');
 @Injectable()
 export class AuthService {
   token: string = null;
+  tokenChange: Subject<string> = new Subject<string>();
 
   constructor(private http: Http, private alertService: AlertService) {
     if (localStorage.getItem('token')){
@@ -118,7 +119,8 @@ export class AuthService {
   // logout user
   logout() {
     this.token = null;
-    localStorage.clear();
+    localStorage.removeItem('token');
+    this.tokenChange.next(null);
   }
 
   // get Token
@@ -130,6 +132,7 @@ export class AuthService {
     console.log('setting token: ', token);
     this.token = token
     localStorage.setItem('token', token);
+    this.tokenChange.next(token);
   }
 
   // Check if user is authenticated
