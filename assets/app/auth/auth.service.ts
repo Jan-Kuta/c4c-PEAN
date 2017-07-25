@@ -1,3 +1,4 @@
+import { AuthService } from './auth.service';
 import { AlertService } from './../alert/alert.service';
 import { Http, Headers, Response } from '@angular/http';
 import { Injectable } from '@angular/core';
@@ -20,7 +21,7 @@ export class AuthService {
         google: '49164558893-c736h9vt0ge4o2u6b2ieabv5kdats72r.apps.googleusercontent.com'
     });
 
-    Hello.on('auth.login', function(auth) {
+    Hello.on('auth.login', (auth) => {
 
       // Save the social token
       var socialToken = auth.authResponse.access_token;
@@ -35,6 +36,7 @@ export class AuthService {
         .subscribe(
           (response: any) => {
           console.log("RESPONSE: ", response);
+          this.setToken(response.token);
           alertService.success('Social OK')
           //this.router.navigate(['/']);          
         },
@@ -122,6 +124,12 @@ export class AuthService {
   // get Token
   getToken() {
     return this.token;
+  }
+
+  setToken(token: string){
+    console.log('setting token: ', token);
+    this.token = token
+    localStorage.setItem('token', token);
   }
 
   // Check if user is authenticated

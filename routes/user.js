@@ -1,5 +1,6 @@
 var express = require('express');
 var passport = require('passport');
+var request = require('request');
 var router = express.Router();
 var User = require('../models').User;
 
@@ -84,13 +85,27 @@ router.post('/login', function (req, res, next) {
 // login user - facebook
 router.post('/facebook', function (req, res, next) {
     console.log("Loging in user: " + req.body.email);
-    sendJSONresponse(res,200,{"token": 'token'});
+    request('https://graph.facebook.com/me', {qs: {access_token: req.body.socialToken}}, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+            var user = User.build({});
+            sendJSONresponse(res,200,{"token": user.generateJwt()});
+        } else {
+            sendJSONresponse(res,401,{"message": 'Bad social token'});
+        }
+    });
 });
 
 // login user - google
 router.post('/google', function (req, res, next) {
     console.log("Loging in user: " + req.body.email);
-    sendJSONresponse(res,200,{"token": 'token'});
+    request('https://www.googleapis.com/oauth2/v1/tokeninfo', {qs: {access_token: req.body.socialToken}}, function (error, response, body) {
+        if (!error && response.statusCode == 200) {
+            var user = User.build({});
+            sendJSONresponse(res,200,{"token": user.generateJwt()});
+        } else {
+            sendJSONresponse(res,401,{"message": 'Bad social token'});
+        }
+    });
 });
 
 // get user byId
