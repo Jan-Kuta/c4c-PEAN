@@ -19,6 +19,8 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false
       }
     });
+
+    Route.hasMany(models.Attribute);
   }
 
   return Route;

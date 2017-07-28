@@ -10,6 +10,10 @@ module.exports = (sequelize, DataTypes) => {
     sectorname: {
       type: DataTypes.STRING,
       required: true
+    },
+    location: {
+        type: Sequelize.GEOMETRY('POINT'),
+        allowNull: false
     }
   });
 
