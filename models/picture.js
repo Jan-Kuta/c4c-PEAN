@@ -15,6 +15,9 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         required: true
     }
+  },
+  {
+    paranoid: true
   });
 
   return Picture;

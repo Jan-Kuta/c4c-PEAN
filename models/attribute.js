@@ -16,6 +16,9 @@ module.exports = (sequelize, DataTypes) => {
         required: true
     }
     // multilingual description TODO
+  },
+  {
+    paranoid: true
   });
 
   return Attribute;

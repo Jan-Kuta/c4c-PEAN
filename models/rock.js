@@ -12,8 +12,11 @@ module.exports = (sequelize, DataTypes) => {
       required: true
     },
     location: {
-        type: Sequelize.GEOMETRY('POINT')
+        type: DataTypes.GEOMETRY('POINT')
     }
+  },
+  {
+    paranoid: true
   });
 
   Rock.associate = function(models){

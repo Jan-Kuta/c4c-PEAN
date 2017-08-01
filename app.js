@@ -8,6 +8,8 @@ var passport = require('passport');
 
 var index = require('./routes/index');
 var userRoute = require('./routes/user');
+var countryRoute = require('./routes/country');
+var areaRoute = require('./routes/area');
 
 var app = express();
 
@@ -34,6 +36,8 @@ app.use(function(req, res, next){
 app.use(passport.initialize());
 
 app.use('/api/user', userRoute);
+app.use('/api/country', countryRoute);
+app.use('/api/area', areaRoute);
 app.use('/', index);
 
 // catch 404 and forward to error handler

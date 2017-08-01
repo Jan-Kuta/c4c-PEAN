@@ -11,6 +11,9 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       required: true
     }
+  },
+  {
+    paranoid: true
   });
 
   Route.associate = function(models){

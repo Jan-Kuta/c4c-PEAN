@@ -87,6 +87,7 @@ router.post('/facebook', function (req, res, next) {
     console.log("Loging in user: " + req.body.email);
     request('https://graph.facebook.com/me', {qs: {access_token: req.body.socialToken}}, function (error, response, body) {
         if (!error && response.statusCode == 200) {
+            // TODO - link accounts by mail
             var user = User.build({});
             sendJSONresponse(res,200,{"token": user.generateJwt()});
         } else {
@@ -100,6 +101,7 @@ router.post('/google', function (req, res, next) {
     console.log("Loging in user: " + req.body.email);
     request('https://www.googleapis.com/oauth2/v1/tokeninfo', {qs: {access_token: req.body.socialToken}}, function (error, response, body) {
         if (!error && response.statusCode == 200) {
+            // TODO - link accounts by mail
             var user = User.build({});
             sendJSONresponse(res,200,{"token": user.generateJwt()});
         } else {

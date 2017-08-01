@@ -12,9 +12,12 @@ module.exports = (sequelize, DataTypes) => {
       required: true
     },
     location: {
-        type: Sequelize.GEOMETRY('POINT'),
+        type: DataTypes.GEOMETRY('POINT'),
         allowNull: false
     }
+  },
+  {
+    paranoid: true
   });
 
   Sector.associate = function(models){

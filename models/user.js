@@ -20,6 +20,9 @@ module.exports = function(sequelize, DataTypes) {
     },
     hash: DataTypes.TEXT,
     salt: DataTypes.TEXT
+  },
+  {
+    paranoid: true
   });
 
   // setter for password storing - hash and salt stored instead
