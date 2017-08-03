@@ -1,9 +1,6 @@
- <p>
-  home works!
-</p> 
 <div class="row">
   <div class="col-md-8">
-    <aol-map [width]="'100%'" [height]="'600px'">
+    <aol-map [width]="'100%'" [height]="'600px'" (onMoveEnd)="onMoveEnd($event)">
       <aol-control>
         <aol-control-zoom></aol-control-zoom>
         <aol-control-mouseposition></aol-control-mouseposition>
@@ -37,7 +34,12 @@
       </aol-layer-vector>
     </aol-map> 
   </div>
-  <div class="col-md-4" style="background-color: grey">
-    TBD
+  <div class="col-md-4">
+    <div class="list-group">
+      <div class="list-group-item" *ngFor="let area of areas">
+        <h4 class="list-group-item-heading">{{ area.areaname}}</h4>
+        <p class="list-group-item-text">...</p>
+      </div>
+    </div>
   </div>
 </div>

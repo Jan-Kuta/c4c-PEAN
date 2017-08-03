@@ -7,8 +7,14 @@ export class AreaService {
     constructor(private http: Http){}
 
     getAreaByCountry(countryId: number){
-        return this.http.get("api/area/bycountry/"+countryId    )
+        return this.http.get("api/area/bycountry/"+countryId)
             .map((res:Response) => res.json())
+            .catch((error:any) => Observable.throw('Did not get areas, server problem occured.'));
+    }
+
+    getAreaByLocation(lngLeftUp: number, latLeftUp: number, lngRightDown: number, latRightDown: number){
+        return this.http.get("api/area/bylocation/"+lngLeftUp+"/"+latLeftUp+"/"+lngRightDown+"/"+latRightDown)
+            .map((res: Response) => res.json())
             .catch((error:any) => Observable.throw('Did not get areas, server problem occured.'));
     }
 }
