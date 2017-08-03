@@ -6,6 +6,7 @@ import { AngularOpenlayersModule } from 'angular2-openlayers';
 
 import { AlertComponent } from './alert/alert.component';
 import { HomeComponent } from './home/home.component';
+import { HomeComponentDeclarative } from './home/home.component.1';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { HeaderComponent } from './header/header.component';
@@ -21,6 +22,7 @@ import { AuthGuard } from './auth/auth-guard.service';
         AppComponent,
         AlertComponent,
         HomeComponent,
+        HomeComponentDeclarative,
         HeaderComponent,
         SignupComponent,
         SigninComponent
