@@ -27,7 +27,7 @@ router.post('', auth, function (req, res) {
 
 // get all areas in country
 router.get('/bycountry/:id', function(req, res){
-    Area.find({
+    Area.findAll({
         where:{
             CountryId: req.params.id
         }

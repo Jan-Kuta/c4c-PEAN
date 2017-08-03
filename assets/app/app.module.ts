@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
+import { AngularOpenlayersModule } from 'angular2-openlayers';
 
 import { AlertComponent } from './alert/alert.component';
 import { HomeComponent } from './home/home.component';
@@ -12,6 +13,7 @@ import { SignupComponent } from './auth/signup/signup.component';
 import { SigninComponent } from './auth/signin/signin.component';
 import { AuthService } from './auth/auth.service';
 import { AlertService } from './alert/alert.service';
+import { AreaService} from './home/area.service';
 import { AuthGuard } from './auth/auth-guard.service';
 
 @NgModule({
@@ -28,11 +30,13 @@ import { AuthGuard } from './auth/auth-guard.service';
         HttpModule,
         FormsModule,
         ReactiveFormsModule,
+        AngularOpenlayersModule,
         AppRoutingModule
     ],
     providers: [
         AuthService,
-        AlertService, 
+        AlertService,
+        AreaService, 
         AuthGuard
     ],
     bootstrap: [AppComponent]

@@ -20,6 +20,8 @@
     "@angular/platform-server": "^4.2.5",
     "@angular/router": "^4.2.5",
     "@angular/upgrade": "^4.2.5",
+    "@types/openlayers": "^4.1.4",
+    "angular2-openlayers": "^0.6.7",
     "body-parser": "~1.17.1",
     "cookie-parser": "~1.4.3",
     "core-js": "^2.4.1",

@@ -1,3 +1,43 @@
-<p>
+ <p>
   home works!
-</p>
+</p> 
+<div class="row">
+  <div class="col-md-8">
+    <aol-map [width]="'100%'" [height]="'600px'">
+      <aol-control>
+        <aol-control-zoom></aol-control-zoom>
+        <aol-control-mouseposition></aol-control-mouseposition>
+      </aol-control>
+      <aol-view [zoom]="5">
+        <aol-coordinate [x]="5.795122" [y]="45.210225" [srid]="'EPSG:4326'"></aol-coordinate>
+      </aol-view>
+      <aol-layer-tile>
+          <aol-source-osm></aol-source-osm>
+      </aol-layer-tile>
+      <aol-interaction-default></aol-interaction-default>
+      <aol-layer-vector>
+        <aol-source-vector>
+        <aol-feature *ngFor="let area of areas">
+            <aol-geometry-point>
+                <aol-coordinate [x]="area.location.coordinates[0]" [y]="area.location.coordinates[1]" [srid]="'EPSG:4326'"></aol-coordinate>
+            </aol-geometry-point>
+            <aol-style>
+              <!-- <aol-style-icon
+                [color]="'#8959A8'"
+                [crossOrigin]="'anonymous'"
+                [src]="'https://openlayers.org/en/v4.2.0/examples/data/dot.png'">
+              </aol-style-icon> -->
+              <aol-style-circle [radius]="5">
+                <aol-style-stroke [color]="'black'" [width]="1"></aol-style-stroke>
+                <aol-style-fill [color]="'green'"></aol-style-fill>
+              </aol-style-circle>
+            </aol-style>
+        </aol-feature>
+          </aol-source-vector>
+      </aol-layer-vector>
+    </aol-map> 
+  </div>
+  <div class="col-md-4" style="background-color: grey">
+    TBD
+  </div>
+</div>
