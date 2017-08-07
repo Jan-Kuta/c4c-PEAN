@@ -16,7 +16,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
   areas = [];
   vectorSource = new ol.source.Vector({});
   styleCache = {};
-  overlay;
+  overlay; // popup overlay
+  select; // interaction - select
 
   public map: any;
 
@@ -49,7 +50,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
         if (!style) {
           style = new ol.style.Style({
             image: new ol.style.Circle({
-              radius: size>1?10:5,
+              radius: size>1?12:5,
               stroke: new ol.style.Stroke({
                 color: size>1?'#fff':'black'
               }),
@@ -81,11 +82,11 @@ export class HomeComponent implements OnInit, AfterViewInit {
         })
     });
 
-    var select = new ol.interaction.Select({
+    this.select = new ol.interaction.Select(/*{
         condition: ol.events.condition.pointerMove
-      });
-    this.map.addInteraction(select);
-    select.on('select', (e) => {
+      }*/);
+    this.map.addInteraction(this.select);
+    this.select.on('select', (e) => {
         this.onFeatureHighlighted(e);
       }
     );
@@ -109,13 +110,30 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
 
   onFeatureHighlighted(event){
-    // Show the Popup window on mouseIn and hide it on mouseOut
+    // Show the Popup window on click on single feature, ZoomIn on click on cluster
     if (event.selected.length>0){
       var coordinate = event.mapBrowserEvent.coordinate;
-      this.content.nativeElement.innerHTML = '<p>You clicked here:</p>';
-      this.overlay.setPosition(coordinate);
+      console.log(event.mapBrowserEvent.pixel);
+      this.map.forEachFeatureAtPixel(event.mapBrowserEvent.pixel, (feature, layer) => {
+        if (typeof feature.get('features') !== 'undefined') { // is cluster
+          var clustFeats = feature.get('features');
+          if (clustFeats.length > 1){
+            // it is cluster -> Zoom In
+            this.onPopupCloser();
+            this.map.getView().setCenter(coordinate);
+            this.map.getView().setZoom(this.map.getView().getZoom()+3);
+            console.log("ZoomIn");
+          } else {
+            // it is a feature -> Show area info 
+            console.log("FEATURE: ",clustFeats[0]);
+            var feature = event.target.getFeatures();
+            this.content.nativeElement.innerHTML = clustFeats[0]["data"]["name"];
+            this.overlay.setPosition(coordinate);
+          }
+        }
+      });
     } else{
-      this.overlay.setPosition(undefined);
+      this.onPopupCloser();
     }
        
   }
@@ -124,6 +142,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   onPopupCloser(){
     console.log("closing popup");
     this.overlay.setPosition(undefined);
+    this.select.getFeatures().clear();
   }
 
   // refresh areas when map moved
@@ -148,6 +167,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
     )
   }
 
+  // add features to the vector
   getFeatures(areas){
     this.vectorSource.clear();
 
@@ -155,7 +175,10 @@ export class HomeComponent implements OnInit, AfterViewInit {
       console.log("Pushing: ", area.location.coordinates);
       var point = new ol.geom.Point(area.location.coordinates)
       point.transform('EPSG:4326', 'EPSG:900913');
-      this.vectorSource.addFeature(new ol.Feature(point));
+
+      var feature = new ol.Feature(point);
+      feature.data = {name: area.areaname};
+      this.vectorSource.addFeature(feature);
     }, this);
   }
 
