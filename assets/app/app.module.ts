@@ -1,8 +1,10 @@
+import { ChartComponent } from './home/chart.component';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { AngularOpenlayersModule } from 'angular2-openlayers';
+import { ChartModule } from 'angular2-highcharts';
 
 import { AlertComponent } from './alert/alert.component';
 import { HomeComponent } from './home/home.component';
@@ -23,6 +25,7 @@ import { AuthGuard } from './auth/auth-guard.service';
         AlertComponent,
         HomeComponent,
         HomeComponentDeclarative,
+        ChartComponent,
         HeaderComponent,
         SignupComponent,
         SigninComponent
@@ -33,7 +36,8 @@ import { AuthGuard } from './auth/auth-guard.service';
         FormsModule,
         ReactiveFormsModule,
         AngularOpenlayersModule,
-        AppRoutingModule
+        AppRoutingModule,
+        ChartModule.forRoot(require('highcharts'))
     ],
     providers: [
         AuthService,

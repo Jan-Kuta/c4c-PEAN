@@ -21,6 +21,7 @@
     "@angular/router": "^4.2.5",
     "@angular/upgrade": "^4.2.5",
     "@types/openlayers": "^4.1.4",
+    "angular2-highcharts": "^0.5.5",
     "angular2-openlayers": "^0.6.7",
     "body-parser": "~1.17.1",
     "cookie-parser": "~1.4.3",

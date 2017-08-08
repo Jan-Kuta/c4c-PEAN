@@ -1,3 +1,4 @@
+import { ChartComponent } from './chart.component';
 import { AlertService } from './../alert/alert.service';
 import { AreaService } from './area.service';
 import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
@@ -25,13 +26,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
     
 
   ngOnInit() {
-    this.overlay = new ol.Overlay( ({
-        element: this.popup.nativeElement,
-        autoPan: true,
-        autoPanAnimation: {
-          duration: 250
-        }
-      }));
 
     var osm_layer: any = new ol.layer.Tile({
             source: new ol.source.OSM()
@@ -75,7 +69,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
     var zoomslider = new ol.control.ZoomSlider();
     this.map = new ol.Map({
         layers: [osm_layer, vector],
-        overlays: [this.overlay],
         view: new ol.View({
         center: ol.proj.transform([0,0], 'EPSG:4326', 'EPSG:3857'),
         zoom: 2
@@ -107,6 +100,16 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(){
     this.map.setTarget(this.mapElement.nativeElement.id);
+    this.overlay = new ol.Overlay( ({
+        element: this.popup.nativeElement,
+        autoPan: true,
+        position: [0,0],
+        autoPanAnimation: {
+          duration: 250
+        }
+      }));
+
+    this.map.addOverlay(this.overlay);
   }
 
   onFeatureHighlighted(event){
@@ -127,7 +130,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
             // it is a feature -> Show area info 
             console.log("FEATURE: ",clustFeats[0]);
             var feature = event.target.getFeatures();
-            this.content.nativeElement.innerHTML = clustFeats[0]["data"]["name"];
+            //this.content.nativeElement.innerHTML = '<app-chart></app-chart>';//clustFeats[0]["data"]["name"];
             this.overlay.setPosition(coordinate);
           }
         }
