@@ -8,11 +8,12 @@ import { Component, Input, OnInit } from '@angular/core';
     `
 })
 export class ChartComponent implements OnInit{
-    @Input() height: string;
-    
+    @Input() height: string = null;
+    @Input() width: number = null;
+
     ngOnInit() {
         this.options = {
-            chart:{type: 'column', height: this.height},
+            chart:{type: 'column', height: this.height, width: this.width},
             title : { text : null},
             xAxis:{labels:{enabled: false},
               minPadding: 0,

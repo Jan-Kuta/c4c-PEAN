@@ -2,16 +2,16 @@
   <div class="col-md-8">
     <div id="popup" class="ol-popup" #popup>
       <a href="#" id="popup-closer" class="ol-popup-closer" (click)="onPopupCloser()"></a>
-      <div id="popup-content" #popupContent><app-chart [height]="'200px'"></app-chart></div>
+      <div id="popup-content" #popupContent><app-chart [height]="'200px'" [width]="300"></app-chart></div>
     </div>
     <div #mapElement id="map" class="map"></div>
-    <app-chart [height]="'150px'"></app-chart>
   </div>
   <div class="col-md-4">
     <div class="list-group">
       <div class="list-group-item" *ngFor="let area of areas">
         <h4 class="list-group-item-heading">{{ area.areaname}}</h4>
         <p class="list-group-item-text">...</p>
+        <app-chart-free [height]="'150px'" [width]="200"></app-chart-free>
       </div>
     </div>
   </div>
