@@ -13,7 +13,8 @@ var areaRoute = require('./routes/area');
 var sectorRoute = require('./routes/sector');
 
 var graphqlHTTP = require('express-graphql');
-var Schema = require('./schemas/schema');
+var models = require('./models');
+var Schema = require('./schemas/schema')(models);
 
 var app = express();
 
