@@ -12,6 +12,9 @@ var countryRoute = require('./routes/country');
 var areaRoute = require('./routes/area');
 var sectorRoute = require('./routes/sector');
 
+var graphqlHTTP = require('express-graphql');
+var Schema = require('./schemas/schema');
+
 var app = express();
 
 // view engine setup
@@ -40,6 +43,12 @@ app.use('/api/user', userRoute);
 app.use('/api/country', countryRoute);
 app.use('/api/area', areaRoute);
 app.use('/api/sector', sectorRoute);
+app.use('/graphql', graphqlHTTP({
+  schema: Schema,
+  pretty: true,
+  graphiql: process.env.NODE_ENV === 'development'
+}))
+
 app.use('/', index);
 
 // catch 404 and forward to error handler
