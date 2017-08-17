@@ -1,45 +1,41 @@
 'use strict'
+var _ = require('lodash');
 var GraphQLTools = require('graphql-tools');
+var Country = require('./country').Type;
+var CountryResolver = require('./country').Resolver;
+var Area = require('./area').Type;
+var AreaResolver= require('./area').Resolver;
 
 module.exports = (models) => {
-    
-    const typeDefs = `
-        type Country{
-            id: Int!
-            name: String
-            areas: [Area]
-        }
-        
-        type Area{
-            id: Int!
-            name: String
-            country: Country
-        }
 
-        type Query{
-            countries: [Country]
-            # country(id: Int!): Country
-            areas: [Area]
-            # area(id: Int!): Area
+    const RootQuery = `
+        # Queries
+        type Query {
+            # Countries of the world
+            countries(id: Int): [Country]
+            # Climbing areas
+            areas(id: Int): [Area]
         }
-    `;
-    const resolvers = {
+        `;
+        const SchemaDefinition = `
+        schema {
+            query: Query
+        }
+        `;
+
+    const rootResolvers = {
         Query: {
             countries: (root, args) => { return models.Country.findAll({ where: args}); },
             areas: (root, args) => { return models.Area.findAll({ where: args}); }
-        },
-        Country: {
-            name: (country) => (country.countryname),
-            areas: (country) => { return country.getAreas(); }
-        },
-        Area:{
-            name: (area) => (area.areaname),
-            country: (area) => { return area.getCountry(); }
         }
     };
+
+    const resolvers = _.merge(rootResolvers, CountryResolver, AreaResolver);
     
     var schema = GraphQLTools.makeExecutableSchema({
-        typeDefs,
+        typeDefs: [SchemaDefinition, RootQuery]
+                        .concat(Country)
+                        .concat(Area),
         resolvers
     });
 

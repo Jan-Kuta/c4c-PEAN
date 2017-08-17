@@ -1,25 +1,22 @@
 var GraphQL = require('graphql');
-var CountryType = require('./country');
+var Country = require('./country');
 
-const AreaType = new GraphQL.GraphQLObjectType({
-  name: 'Area',
-  description: 'Climbing Areas',
-  fields: () => ({
-    id: {
-        type: GraphQL.GraphQLInt,
-        resolve: (area) => (area.id)
-    },
-    name: {
-        type: GraphQL.GraphQLString,
-        resolve: (area) => (area.areaname)
-    }/*,
-    country: {
-        type: CountryType,
-        resolve: (area) => {
-            return area.getCountry();
+var exp = {};
+
+exp['Type'] = `
+        # Climbing areas
+        type Area{
+            id: Int!
+            name: String
+            country: Country
         }
-    }*/
-  })
-});
 
-module.exports = AreaType;
+`;
+
+exp['Resolver'] = {
+            Area:{
+                name: (area) => (area.areaname),
+                country: (area) => { return area.getCountry(); }
+            }
+        }
+module.exports = exp;
