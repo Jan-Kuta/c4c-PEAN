@@ -31,7 +31,11 @@ module.exports = (models) => {
         }
     };
 
-    const resolvers = _.merge(rootResolvers, CountryResolver, AreaResolver);
+    const resolvers = _.merge(
+                        rootResolvers, 
+                        CountryResolver, 
+                        AreaResolver
+                    );
     
     var schema = GraphQLTools.makeExecutableSchema({
         typeDefs: [SchemaDefinition, RootQuery]
