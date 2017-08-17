@@ -1,5 +1,5 @@
 var GraphQL = require('graphql');
-var Area = require('./area');
+var Area = require('./area').Type;
 
 var exp = {};
 

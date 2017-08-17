@@ -4,7 +4,8 @@ var GraphQLTools = require('graphql-tools');
 var Country = require('./country').Type;
 var CountryResolver = require('./country').Resolver;
 var Area = require('./area').Type;
-var AreaResolver= require('./area').Resolver;
+var AreaResolver = require('./area').Resolver;
+var Coordinates = require('./coordinates').Type;
 
 module.exports = (models) => {
 
@@ -14,7 +15,7 @@ module.exports = (models) => {
             # Countries of the world
             countries(id: Int): [Country]
             # Climbing areas
-            areas(id: Int): [Area]
+            areas(id: Int, CountryId: Int): [Area]
         }
         `;
         const SchemaDefinition = `
@@ -35,7 +36,8 @@ module.exports = (models) => {
     var schema = GraphQLTools.makeExecutableSchema({
         typeDefs: [SchemaDefinition, RootQuery]
                         .concat(Country)
-                        .concat(Area),
+                        .concat(Area)
+                        .concat(Coordinates),
         resolvers
     });
 
