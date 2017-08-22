@@ -22,9 +22,34 @@ module.exports = (models) => {
             user(id: Int!): User
         }
         `;
-        const SchemaDefinition = `
+
+    /*const RootMutation = `
+        # Mutations
+        type Mutation {
+            # register new User
+            register(
+                username: String!
+                email: String!
+                password: String!
+            ): User
+
+            # verify e-mail address of the user
+            verify(
+                token: String!
+            ): String
+
+            # login existing user
+            login(
+                email: String!
+                password: String!
+            ): String
+        }
+    `;*/
+
+    const SchemaDefinition = `
         schema {
             query: Query
+            #mutation: Mutation
         }
         `;
 
@@ -33,7 +58,32 @@ module.exports = (models) => {
             countries: (root, args) => { return models.Country.findAll({ where: args}); },
             areas: (root, args) => { return models.Area.findAll({ where: args}); },
             user: (root, args) => { return models.User.find({ where: args}); }
-        }
+        }/*,
+        Mutation:{
+            register: (_, {username, email, password}) => {
+                var user = models.User.build({
+                    username: username,
+                    email: email
+                });
+                user.setPassword(password);
+                return user.save().then(usr => {
+                        console.log('User saved ', usr.dataValues);
+                        return usr.dataValues;
+                    })
+                    .catch((error) => {
+                        console.log('Error: ', error);
+                        throw(error.errors[0].message);
+                    })
+                
+            },
+            verify: (_, {}) => {
+                console.log('Verifying email address');
+            },
+            login: (_, {email, password}) => {
+                console.log("Loging in user: " + email);
+                return "token";
+            }
+        }*/
     };
 
     const resolvers = _.merge(
@@ -44,7 +94,7 @@ module.exports = (models) => {
                     );
     
     var schema = GraphQLTools.makeExecutableSchema({
-        typeDefs: [SchemaDefinition, RootQuery]
+        typeDefs: [SchemaDefinition, RootQuery/*, RootMutation*/]
                         .concat(User)
                         .concat(Country)
                         .concat(Area)

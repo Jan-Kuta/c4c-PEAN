@@ -15,15 +15,15 @@ exp['Type'] = `
 exp['Resolver']= {
             User: {
                 name: (user) => (user.username),
-                createdAt: (area) => {
-                    return area.createdAt.toISOString();
+                createdAt: (user) => {
+                    return user.createdAt.toISOString();
                 },
-                updatedAt: (area) => {
-                    return area.updatedAt.toISOString();
+                updatedAt: (user) => {
+                    return user.updatedAt.toISOString();
                 },
-                deletedAt: (area) => {
-                    if (area.deletedAt != null){
-                        return area.deletedAt.toISOString();
+                deletedAt: (user) => {
+                    if (user.deletedAt != null){
+                        return user.deletedAt.toISOString();
                     } else {
                         return null;
                     }
