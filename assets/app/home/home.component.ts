@@ -103,7 +103,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
     this.overlay = new ol.Overlay( ({
         element: this.popup.nativeElement,
         autoPan: true,
-        position: [0,0],
+        //position: [0,0],
         autoPanAnimation: {
           duration: 250
         }
