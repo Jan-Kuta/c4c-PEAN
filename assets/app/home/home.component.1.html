@@ -4,7 +4,7 @@
       <aol-control>
         <aol-control-zoom></aol-control-zoom>
       </aol-control>
-      <aol-view [zoom]="5">
+      <aol-view [zoom]="1">
         <aol-coordinate [x]="5.795122" [y]="45.210225" [srid]="'EPSG:4326'"></aol-coordinate>
       </aol-view>
       <aol-layer-tile>
@@ -34,11 +34,11 @@
     </aol-map> 
   </div>
   <div class="col-md-4">
-    <div class="list-group">
+    <!-- <div class="list-group">
       <div class="list-group-item" *ngFor="let area of areas">
         <h4 class="list-group-item-heading">{{ area.areaname}}</h4>
         <p class="list-group-item-text">...</p>
       </div>
-    </div>
+    </div> -->
   </div>
 </div>

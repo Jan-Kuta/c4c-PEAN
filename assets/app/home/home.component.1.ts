@@ -28,8 +28,18 @@ export class HomeComponentDeclarative implements OnInit{
     // get Areas in this coordinates
     this.areaService.getAreaByLocation(coords[0], coords[3], coords[2], coords[1]).subscribe(
       (areas: any) => {
-          console.log("Got areas: "+areas.length);
+          console.log("Got areas: "+areas.length, areas);
           this.areas=areas;
+          // var count = 20000;
+          // var e = 90;
+          // var areas2 = [];
+          // for (var i = 0; i < count; ++i) {
+          //   var coordinates = [2 * e * Math.random() - e, 2 * e * Math.random() - e];
+          //   areas2.push( {areaname: 'Loc'+i ,location: { type: "Point", coordinates: coordinates}});
+          // }
+          // console.log(areas2.length);
+          // this.areas = this.areas.concat(...areas2);
+          // console.log("Got areas: "+this.areas.length);
         },
         (error) => {
           console.log(error);

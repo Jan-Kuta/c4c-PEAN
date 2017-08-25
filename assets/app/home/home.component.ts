@@ -86,8 +86,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
     this.map.addControl(zoomslider);
 
-    // redraw Markers on map moving
-    this.map.on('moveend', this.onMoveEnd.bind(this));
+    // add Markers to the map
+    this.populateFeatures();
 
   }
 
@@ -103,7 +103,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
     this.overlay = new ol.Overlay( ({
         element: this.popup.nativeElement,
         autoPan: true,
-        position: [0,0],
+        //position: [0,0],
         autoPanAnimation: {
           duration: 250
         }
@@ -149,19 +149,13 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
 
   // refresh areas when map moved
-  onMoveEnd(event){
-    // get window coordinates
-    var coords = event.map.getView().calculateExtent(event.map.getSize());
-    coords = ol.proj.transformExtent(coords, 'EPSG:3857', 'EPSG:4326');
-    console.log("Window coordinates: ", coords);
-    this.alertService.success("MovingEnd ["+coords[0]+","+coords[3]+"],["+coords[2]+","+coords[1]+"]");
-
+  populateFeatures(){
     // get Areas in this coordinates
-    this.areaService.getAreaByLocation(coords[0], coords[3], coords[2], coords[1]).subscribe(
-      (areas: any) => {
-          console.log("Got areas: "+areas.length);
-          this.areas=areas;
-          this.getFeatures(areas);
+    this.areaService.getAllAreas().subscribe(
+      ({data}) => {
+          console.log("Got areas: "+data.areas.length);
+          this.areas=data.areas;
+          this.getFeatures(data.areas);
         },
         (error) => {
           console.log(error);
@@ -175,14 +169,22 @@ export class HomeComponent implements OnInit, AfterViewInit {
     this.vectorSource.clear();
 
     areas.forEach(area => {
-      console.log("Pushing: ", area.location.coordinates);
-      var point = new ol.geom.Point(area.location.coordinates)
+      console.log("Pushing: ", area.coordinates);
+      var point = new ol.geom.Point([area.coordinates.lng, area.coordinates.lat])
       point.transform('EPSG:4326', 'EPSG:900913');
 
       var feature = new ol.Feature(point);
-      feature.data = {name: area.areaname};
+      feature.data = {name: area.name};
       this.vectorSource.addFeature(feature);
     }, this);
+
+    var count = 2000;
+    var e = 4500000;
+      for (var i = 0; i < count; ++i) {
+        var coordinates = [2 * e * Math.random() - e, 2 * e * Math.random() - e];
+        this.vectorSource.addFeature( new ol.Feature(new ol.geom.Point(coordinates)));
+      }
+
   }
 
   onMouseOver(event){

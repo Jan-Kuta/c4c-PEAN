@@ -7,6 +7,8 @@ import { HttpModule } from '@angular/http';
 import { AngularOpenlayersModule } from 'angular2-openlayers';
 import { ChartModule } from 'angular2-highcharts';
 import { ChartsModule} from 'ng2-charts';
+import { ApolloClient } from 'apollo-client';
+import { ApolloModule } from 'apollo-angular';
 
 import { AlertComponent } from './alert/alert.component';
 import { HomeComponent } from './home/home.component';
@@ -20,6 +22,13 @@ import { AuthService } from './auth/auth.service';
 import { AlertService } from './alert/alert.service';
 import { AreaService} from './home/area.service';
 import { AuthGuard } from './auth/auth-guard.service';
+
+// Create the client
+const client = new ApolloClient();
+
+export function provideClient(): ApolloClient {
+  return client;
+}
 
 @NgModule({
     declarations: [
@@ -41,7 +50,8 @@ import { AuthGuard } from './auth/auth-guard.service';
         AngularOpenlayersModule,
         AppRoutingModule,
         ChartsModule,
-        ChartModule.forRoot(require('highcharts'))
+        ChartModule.forRoot(require('highcharts')), // delete, it is payed
+        ApolloModule.forRoot(provideClient)
     ],
     providers: [
         AuthService,
