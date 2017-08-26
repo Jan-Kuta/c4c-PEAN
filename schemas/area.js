@@ -1,7 +1,5 @@
-var Country = require('./country').Type;
-var Coordinates = require('./coordinates').Type;
-
 module.exports = (models) => {
+    
     var exp = {};
 
     exp['Type'] = `
