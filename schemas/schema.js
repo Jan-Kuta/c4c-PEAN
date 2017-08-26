@@ -23,6 +23,12 @@ module.exports = (models) => {
     var AreaQueries = AreaBundle.Queries;
     var AreaQueriesDeclaration = AreaBundle.QueriesDeclaration;
     
+    var SectorBundle = require('./sector')(models);
+    var Sector = SectorBundle.Type;
+    var SectorResolver = SectorBundle.Resolver;
+    var SectorQueries = SectorBundle.Queries;
+    var SectorQueriesDeclaration = SectorBundle.QueriesDeclaration;
+    
     var Coordinates = require('./coordinates').Type;
 
     const RootQuery = `
@@ -30,6 +36,7 @@ module.exports = (models) => {
         type Query {
             ${CountryQueriesDeclaration}
             ${AreaQueriesDeclaration}
+            ${SectorQueriesDeclaration}
             ${UserQueriesDeclaration}
         }
         `;
@@ -67,7 +74,8 @@ module.exports = (models) => {
     const Queries = Object.assign(
         UserQueries,
         CountryQueries,
-        AreaQueries
+        AreaQueries,
+        SectorQueries
     );
 
     const rootResolvers = {
@@ -103,7 +111,8 @@ module.exports = (models) => {
                         rootResolvers, 
                         UserResolver,
                         CountryResolver, 
-                        AreaResolver
+                        AreaResolver,
+                        SectorResolver
                     );
     
     var schema = GraphQLTools.makeExecutableSchema({
@@ -111,6 +120,7 @@ module.exports = (models) => {
                         .concat(User)
                         .concat(Country)
                         .concat(Area)
+                        .concat(Sector)
                         .concat(Coordinates),
         resolvers
     });

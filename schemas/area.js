@@ -14,6 +14,7 @@ module.exports = (models) => {
                 updatedAt: String
                 deletedAt: String
                 country: Country
+                sectors: [Sector]
             }
 
     `;
@@ -49,7 +50,8 @@ module.exports = (models) => {
                             return null;
                         }
                     },
-                    country: (area) => { return area.getCountry(); }
+                    country: (area) => { return area.getCountry(); },
+                    sectors: (area) => { return area.getSectors(); }
                 }
             }
 
