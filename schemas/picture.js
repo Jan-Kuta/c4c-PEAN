@@ -1,40 +1,36 @@
+var Country = require('./country').Type;
+var Coordinates = require('./coordinates').Type;
+
 module.exports = (models) => {
-    
     var exp = {};
 
     exp['Type'] = `
             # Climbing areas
-            type Area{
+            type Picture{
                 id: Int!
-                name: String
-                coordinates: Coordinates
+                url: String
+                alt: String
                 createdAt: String
                 updatedAt: String
                 deletedAt: String
-                country: Country
-                sectors: [Sector]
             }
 
     `;
 
     exp['QueriesDeclaration'] = `
-            # Climbing areas
-            areas(id: Int, CountryId: Int): [Area]
+            # Picture by Id
+            picture(id: Int!): Picture
             
     `;
 
     exp['Queries'] = {
-        areas: (root, args) => { return models.Area.findAll({ where: args}); }
+        picture: (root, args) => { return models.Area.findOne({ where: args}); }
     };
 
     exp['Mutations'] = {};
 
     exp['Resolver'] = {
-                Area:{
-                    name: (area) => (area.areaname),
-                    coordinates: (area) => {
-                        return { lat: area.location.coordinates[1], lng: area.location.coordinates[0] };
-                    },
+                Picture:{
                     createdAt: (area) => {
                         return area.createdAt.toISOString();
                     },
@@ -47,9 +43,7 @@ module.exports = (models) => {
                         } else {
                             return null;
                         }
-                    },
-                    country: (area) => { return area.getCountry(); },
-                    sectors: (area) => { return area.getSectors(); }
+                    }
                 }
             }
 

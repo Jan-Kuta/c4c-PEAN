@@ -23,6 +23,36 @@ module.exports = (models) => {
     var AreaQueries = AreaBundle.Queries;
     var AreaQueriesDeclaration = AreaBundle.QueriesDeclaration;
     
+    var SectorBundle = require('./sector')(models);
+    var Sector = SectorBundle.Type;
+    var SectorResolver = SectorBundle.Resolver;
+    var SectorQueries = SectorBundle.Queries;
+    var SectorQueriesDeclaration = SectorBundle.QueriesDeclaration;
+    
+    var RockBundle = require('./rock')(models);
+    var Rock = RockBundle.Type;
+    var RockResolver = RockBundle.Resolver;
+    var RockQueries = RockBundle.Queries;
+    var RockQueriesDeclaration = RockBundle.QueriesDeclaration;
+    
+    var RouteBundle = require('./route')(models);
+    var Route = RouteBundle.Type;
+    var RouteResolver = RouteBundle.Resolver;
+    var RouteQueries = RouteBundle.Queries;
+    var RouteQueriesDeclaration = RouteBundle.QueriesDeclaration;
+    
+    var AttributeBundle = require('./attribute')(models);
+    var Attribute = AttributeBundle.Type;
+    var AttributeResolver = AttributeBundle.Resolver;
+    var AttributeQueries = AttributeBundle.Queries;
+    var AttributeQueriesDeclaration = AttributeBundle.QueriesDeclaration;
+    
+    var PictureBundle = require('./picture')(models);
+    var Picture = PictureBundle.Type;
+    var PictureResolver = PictureBundle.Resolver;
+    var PictureQueries = PictureBundle.Queries;
+    var PictureQueriesDeclaration = PictureBundle.QueriesDeclaration;
+    
     var Coordinates = require('./coordinates').Type;
 
     const RootQuery = `
@@ -30,7 +60,12 @@ module.exports = (models) => {
         type Query {
             ${CountryQueriesDeclaration}
             ${AreaQueriesDeclaration}
+            ${SectorQueriesDeclaration}
+            ${RockQueriesDeclaration}
+            ${RouteQueriesDeclaration}
             ${UserQueriesDeclaration}
+            ${AttributeQueriesDeclaration}
+            ${PictureQueriesDeclaration}
         }
         `;
 
@@ -67,7 +102,12 @@ module.exports = (models) => {
     const Queries = Object.assign(
         UserQueries,
         CountryQueries,
-        AreaQueries
+        AreaQueries,
+        SectorQueries,
+        RockQueries,
+        RouteQueries,
+        AttributeQueries,
+        PictureQueries
     );
 
     const rootResolvers = {
@@ -103,7 +143,12 @@ module.exports = (models) => {
                         rootResolvers, 
                         UserResolver,
                         CountryResolver, 
-                        AreaResolver
+                        AreaResolver,
+                        SectorResolver,
+                        RockResolver,
+                        RouteResolver,
+                        AttributeResolver,
+                        PictureResolver
                     );
     
     var schema = GraphQLTools.makeExecutableSchema({
@@ -111,6 +156,11 @@ module.exports = (models) => {
                         .concat(User)
                         .concat(Country)
                         .concat(Area)
+                        .concat(Sector)
+                        .concat(Rock)
+                        .concat(Route)
+                        .concat(Attribute)
+                        .concat(Picture)
                         .concat(Coordinates),
         resolvers
     });
