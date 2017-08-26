@@ -29,6 +29,18 @@ module.exports = (models) => {
     var SectorQueries = SectorBundle.Queries;
     var SectorQueriesDeclaration = SectorBundle.QueriesDeclaration;
     
+    var RockBundle = require('./rock')(models);
+    var Rock = RockBundle.Type;
+    var RockResolver = RockBundle.Resolver;
+    var RockQueries = RockBundle.Queries;
+    var RockQueriesDeclaration = RockBundle.QueriesDeclaration;
+    
+    var RouteBundle = require('./route')(models);
+    var Route = RouteBundle.Type;
+    var RouteResolver = RouteBundle.Resolver;
+    var RouteQueries = RouteBundle.Queries;
+    var RouteQueriesDeclaration = RouteBundle.QueriesDeclaration;
+    
     var Coordinates = require('./coordinates').Type;
 
     const RootQuery = `
@@ -37,6 +49,8 @@ module.exports = (models) => {
             ${CountryQueriesDeclaration}
             ${AreaQueriesDeclaration}
             ${SectorQueriesDeclaration}
+            ${RockQueriesDeclaration}
+            ${RouteQueriesDeclaration}
             ${UserQueriesDeclaration}
         }
         `;
@@ -75,7 +89,9 @@ module.exports = (models) => {
         UserQueries,
         CountryQueries,
         AreaQueries,
-        SectorQueries
+        SectorQueries,
+        RockQueries,
+        RouteQueries
     );
 
     const rootResolvers = {
@@ -112,7 +128,9 @@ module.exports = (models) => {
                         UserResolver,
                         CountryResolver, 
                         AreaResolver,
-                        SectorResolver
+                        SectorResolver,
+                        RockResolver,
+                        RouteResolver
                     );
     
     var schema = GraphQLTools.makeExecutableSchema({
@@ -121,6 +139,8 @@ module.exports = (models) => {
                         .concat(Country)
                         .concat(Area)
                         .concat(Sector)
+                        .concat(Rock)
+                        .concat(Route)
                         .concat(Coordinates),
         resolvers
     });

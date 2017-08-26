@@ -11,6 +11,7 @@ module.exports = (models) => {
                 updatedAt: String
                 deletedAt: String
                 area: Area
+                rocks: [Rock]
             }
 
     `;
@@ -45,7 +46,8 @@ module.exports = (models) => {
                             return null;
                         }
                     },
-                    area: (sector) => { return sector.getArea(); }
+                    area: (sector) => { return sector.getArea(); },
+                    rocks: (sector) => { return sector.getRocks(); }
                 }
             }
 
