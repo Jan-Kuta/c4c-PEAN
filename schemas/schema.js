@@ -1,25 +1,36 @@
 'use strict'
-var _ = require('lodash');
-var GraphQLTools = require('graphql-tools');
-var User = require('./user').Type;
-var UserResolver = require('./user').Resolver;
-var Country = require('./country').Type;
-var CountryResolver = require('./country').Resolver;
-var Area = require('./area').Type;
-var AreaResolver = require('./area').Resolver;
-var Coordinates = require('./coordinates').Type;
 
 module.exports = (models) => {
+
+    var _ = require('lodash');
+    var GraphQLTools = require('graphql-tools');
+    
+    var UserBundle = require('./user')(models);
+    var User = UserBundle.Type;
+    var UserResolver = UserBundle.Resolver;
+    var UserQueries = UserBundle.Queries;
+    var UserQueriesDeclaration = UserBundle.QueriesDeclaration;
+    
+    var CountryBundle = require('./country')(models);
+    var Country = CountryBundle.Type;
+    var CountryResolver = CountryBundle.Resolver;
+    var CountryQueries = CountryBundle.Queries;
+    var CountryQueriesDeclaration = CountryBundle.QueriesDeclaration;
+    
+    var AreaBundle = require('./area')(models);
+    var Area = AreaBundle.Type;
+    var AreaResolver = AreaBundle.Resolver;
+    var AreaQueries = AreaBundle.Queries;
+    var AreaQueriesDeclaration = AreaBundle.QueriesDeclaration;
+    
+    var Coordinates = require('./coordinates').Type;
 
     const RootQuery = `
         # Queries
         type Query {
-            # Countries of the world
-            countries(id: Int): [Country]
-            # Climbing areas
-            areas(id: Int, CountryId: Int): [Area]
-            # get user
-            user(id: Int!): User
+            ${CountryQueriesDeclaration}
+            ${AreaQueriesDeclaration}
+            ${UserQueriesDeclaration}
         }
         `;
 
@@ -53,12 +64,14 @@ module.exports = (models) => {
         }
         `;
 
+    const Queries = Object.assign(
+        UserQueries,
+        CountryQueries,
+        AreaQueries
+    );
+
     const rootResolvers = {
-        Query: {
-            countries: (root, args) => { return models.Country.findAll({ where: args}); },
-            areas: (root, args) => { return models.Area.findAll({ where: args}); },
-            user: (root, args) => { return models.User.find({ where: args}); }
-        }/*,
+        Query: Queries/*,
         Mutation:{
             register: (_, {username, email, password}) => {
                 var user = models.User.build({
