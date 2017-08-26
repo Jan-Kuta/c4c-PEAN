@@ -41,6 +41,18 @@ module.exports = (models) => {
     var RouteQueries = RouteBundle.Queries;
     var RouteQueriesDeclaration = RouteBundle.QueriesDeclaration;
     
+    var AttributeBundle = require('./attribute')(models);
+    var Attribute = AttributeBundle.Type;
+    var AttributeResolver = AttributeBundle.Resolver;
+    var AttributeQueries = AttributeBundle.Queries;
+    var AttributeQueriesDeclaration = AttributeBundle.QueriesDeclaration;
+    
+    var PictureBundle = require('./picture')(models);
+    var Picture = PictureBundle.Type;
+    var PictureResolver = PictureBundle.Resolver;
+    var PictureQueries = PictureBundle.Queries;
+    var PictureQueriesDeclaration = PictureBundle.QueriesDeclaration;
+    
     var Coordinates = require('./coordinates').Type;
 
     const RootQuery = `
@@ -52,6 +64,8 @@ module.exports = (models) => {
             ${RockQueriesDeclaration}
             ${RouteQueriesDeclaration}
             ${UserQueriesDeclaration}
+            ${AttributeQueriesDeclaration}
+            ${PictureQueriesDeclaration}
         }
         `;
 
@@ -91,7 +105,9 @@ module.exports = (models) => {
         AreaQueries,
         SectorQueries,
         RockQueries,
-        RouteQueries
+        RouteQueries,
+        AttributeQueries,
+        PictureQueries
     );
 
     const rootResolvers = {
@@ -130,7 +146,9 @@ module.exports = (models) => {
                         AreaResolver,
                         SectorResolver,
                         RockResolver,
-                        RouteResolver
+                        RouteResolver,
+                        AttributeResolver,
+                        PictureResolver
                     );
     
     var schema = GraphQLTools.makeExecutableSchema({
@@ -141,6 +159,8 @@ module.exports = (models) => {
                         .concat(Sector)
                         .concat(Rock)
                         .concat(Route)
+                        .concat(Attribute)
+                        .concat(Picture)
                         .concat(Coordinates),
         resolvers
     });
