@@ -1,9 +1,12 @@
+import { Store } from '@ngrx/store';
 import { Subject } from 'rxjs/Subject';
-import { AlertService } from './../alert/alert.service';
 import { Http, Headers, Response } from '@angular/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs/Observable';
 import "rxjs/Rx";
+import * as fromApp from '../store/app.reducers';
+import * as AlertActions from '../alert/store/alert.actions';
+
 const Hello: any = require('hellojs');
 
 @Injectable()
@@ -11,7 +14,7 @@ export class AuthService {
   token: string = null;
   tokenChange: Subject<string> = new Subject<string>();
 
-  constructor(private http: Http, private alertService: AlertService) {
+  constructor(private http: Http, private store: Store<fromApp.AppState>) {
     if (localStorage.getItem('token')){
       this.token = localStorage.getItem('token');
     }
@@ -38,12 +41,12 @@ export class AuthService {
           (response: any) => {
           console.log("RESPONSE: ", response);
           this.setToken(response.token);
-          alertService.success('Social OK')
+          this.store.dispatch(new AlertActions.ShowSuccessMessage({message:'Social OK', keepAfterNavigationChange: false}));
           //this.router.navigate(['/']);          
         },
         (error) => {
           console.log(error);
-          alertService.error('Social problem');
+          this.store.dispatch(new AlertActions.ShowErrorMessage({message:'Social problem', keepAfterNavigationChange: false}));
         }
         );
 

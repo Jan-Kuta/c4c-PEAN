@@ -1,7 +1,11 @@
+import { Store } from '@ngrx/store';
 import { ChartComponent } from './chart.component';
-import { AlertService } from './../alert/alert.service';
 import { AreaService } from './area.service';
 import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
+
+import * as fromApp from '../store/app.reducers';
+import * as AlertActions from '../alert/store/alert.actions';
+
 const ol: any = require('openlayers');
 
 @Component({
@@ -22,7 +26,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   public map: any;
 
-  constructor(private areaService: AreaService, private alertService: AlertService) {}
+  constructor(private areaService: AreaService, private store: Store<fromApp.AppState>) {}
     
 
   ngOnInit() {
@@ -159,7 +163,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
         },
         (error) => {
           console.log(error);
-          this.alertService.error(error);
+          this.store.dispatch(new AlertActions.ShowErrorMessage({message: error, keepAfterNavigationChange: false}));
         }
     )
   }

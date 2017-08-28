@@ -1,8 +1,11 @@
-import { AlertService } from './../../alert/alert.service';
+import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
 import { Response } from '@angular/http';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+
+import * as fromApp from '../../store/app.reducers';
+import * as AlertActions from '../../alert/store/alert.actions';
 
 import { AuthService } from '../auth.service';
 
@@ -13,7 +16,7 @@ import { AuthService } from '../auth.service';
 })
 export class SignupComponent implements OnInit {
 
-  constructor(private router: Router, private authService: AuthService, private alertService: AlertService) { }
+  constructor(private router: Router, private authService: AuthService, private store: Store<fromApp.AppState>) { }
 
   ngOnInit() {
   }
@@ -30,7 +33,7 @@ export class SignupComponent implements OnInit {
         },
         (error) => {
           console.log(error);
-          this.alertService.error(error);
+          this.store.dispatch(new AlertActions.ShowErrorMessage({message: error, keepAfterNavigationChange: false}));
         }
       );
   }

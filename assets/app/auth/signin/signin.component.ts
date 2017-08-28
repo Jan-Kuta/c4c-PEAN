@@ -1,7 +1,10 @@
+import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
-import { AlertService } from './../../alert/alert.service';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
+
+import * as fromApp from '../../store/app.reducers';
+import * as AlertActions from '../../alert/store/alert.actions';
 
 import { AuthService } from '../auth.service';
 
@@ -14,7 +17,7 @@ export class SigninComponent implements OnInit {
 
   redirect: boolean = false;
 
-  constructor(private router: Router, private authService: AuthService, private alertService: AlertService) {}
+  constructor(private router: Router, private authService: AuthService, private store: Store<fromApp.AppState>) {}
 
   ngOnInit() {
   }
@@ -31,7 +34,7 @@ export class SigninComponent implements OnInit {
         },
         (error) => {
           console.log(error);
-          this.alertService.error('Bad credentials');
+          this.store.dispatch(new AlertActions.ShowErrorMessage({message:'Bad credentials', keepAfterNavigationChange: false}));
         }
       );
   }

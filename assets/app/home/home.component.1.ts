@@ -1,6 +1,10 @@
-import { AlertService } from './../alert/alert.service';
+import { Store } from '@ngrx/store';
 import { AreaService } from './area.service';
 import { Component, OnInit} from '@angular/core';
+
+import * as fromApp from '../store/app.reducers';
+import * as AlertActions from '../alert/store/alert.actions';
+
 const ol: any = require('openlayers');
 
 @Component({
@@ -11,7 +15,7 @@ const ol: any = require('openlayers');
 export class HomeComponentDeclarative implements OnInit{
   areas = [];
   
-  constructor(private areaService: AreaService, private alertService: AlertService) {}
+  constructor(private areaService: AreaService, private store: Store<fromApp.AppState>) {}
 
   ngOnInit() {
     
@@ -23,8 +27,8 @@ export class HomeComponentDeclarative implements OnInit{
     var coords = event.map.getView().calculateExtent(event.map.getSize());
     coords = ol.proj.transformExtent(coords, 'EPSG:3857', 'EPSG:4326');
     console.log("Window coordinates: ", coords);
-    this.alertService.success("MovingEnd ["+coords[0]+","+coords[3]+"],["+coords[2]+","+coords[1]+"]");
-
+    this.store.dispatch(new AlertActions.ShowSuccessMessage({message: "MovingEnd ["+coords[0]+","+coords[3]+"],["+coords[2]+","+coords[1]+"]", keepAfterNavigationChange: false}));
+    
     // get Areas in this coordinates
     this.areaService.getAreaByLocation(coords[0], coords[3], coords[2], coords[1]).subscribe(
       (areas: any) => {
@@ -43,7 +47,7 @@ export class HomeComponentDeclarative implements OnInit{
         },
         (error) => {
           console.log(error);
-          this.alertService.error(error);
+          this.store.dispatch(new AlertActions.ShowErrorMessage({message: error, keepAfterNavigationChange: false}));
         }
     )
   }
