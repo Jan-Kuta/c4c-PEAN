@@ -34,6 +34,12 @@ export function alertReducer(state = initialState, action: AlertActions.AlertAct
                 ...state,
                 message: ''
             };
+        case AlertActions.NAVIGATION_CHANGED:
+            return {
+                ...state,
+                message: state.keepAfterNavigationChange? state.message : '',
+                keepAfterNavigationChange: false  // only keep for a single location change
+            };
         default:
             return state;
     }

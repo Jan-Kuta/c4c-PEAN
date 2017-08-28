@@ -11,7 +11,10 @@ import { ApolloClient } from 'apollo-client';
 import { ApolloModule } from 'apollo-angular';
 import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
+import { StoreRouterConnectingModule } from '@ngrx/router-store';
+import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 
+import { AlertEffects } from './alert/store/alert.effects';
 import { reducers } from './store/app.reducers';
 import { AlertComponent } from './alert/alert.component';
 import { HomeComponent } from './home/home.component';
@@ -52,10 +55,12 @@ export function provideClient(): ApolloClient {
         AngularOpenlayersModule,
         AppRoutingModule,
         ChartsModule,
-        ChartModule.forRoot(require('highcharts')), // delete, it is payed
+        ChartModule.forRoot(require('highcharts')), // TODO delete, it is payed
         ApolloModule.forRoot(provideClient),
         StoreModule.forRoot(reducers),
-        EffectsModule.forRoot([])
+        EffectsModule.forRoot([AlertEffects]),
+        StoreRouterConnectingModule,
+        StoreDevtoolsModule.instrument() // TODO only for development
     ],
     providers: [
         AuthService,
