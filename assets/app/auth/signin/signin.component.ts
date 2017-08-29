@@ -3,10 +3,9 @@ import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 
-import * as fromApp from '../../store/app.reducers';
 import * as AlertActions from '../../alert/store/alert.actions';
-
-import { AuthService } from '../auth.service';
+import * as fromApp from '../../store/app.reducers';
+import * as AuthActions from '../store/auth.actions';
 
 @Component({
   selector: 'app-signin',
@@ -17,7 +16,7 @@ export class SigninComponent implements OnInit {
 
   redirect: boolean = false;
 
-  constructor(private router: Router, private authService: AuthService, private store: Store<fromApp.AppState>) {}
+  constructor(private router: Router, private store: Store<fromApp.AppState>) {}
 
   ngOnInit() {
   }
@@ -26,32 +25,23 @@ export class SigninComponent implements OnInit {
   onSignin(form: NgForm) {
     const email = form.value.email;
     const password = form.value.password;
-    this.authService.signinUser(email, password)
-      .subscribe(
-        (response: any) => {
-          console.log(response);
-          this.router.navigate(['/']);          
-        },
-        (error) => {
-          console.log(error);
-          this.store.dispatch(new AlertActions.ShowErrorMessage({message:'Bad credentials', keepAfterNavigationChange: false}));
-        }
-      );
+
+    this.store.dispatch(new AuthActions.TrySignin({ email: email, password: password}));
   }
 
   // login by facebook account
   onFacebookLogin(){
-    this.authService.loginFacebook();
+    //this.authService.loginFacebook();
   }
 
   // login by twitter account
   onTwitterLogin(){
-    this.authService.loginTwitter();
+    //this.authService.loginTwitter();
   }
 
   // login by google account
   onGoogleLogin(){
-    this.authService.loginGoogle();
+    //this.authService.loginGoogle();
   }
 
 }

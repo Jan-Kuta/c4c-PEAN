@@ -1,29 +1,29 @@
+import { Store } from '@ngrx/store';
 import { Subscription } from 'rxjs/Rx';
 import { Router } from '@angular/router';
-import { Component, ChangeDetectorRef, OnDestroy } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Response } from '@angular/http';
+import { Observable } from 'rxjs/Observable';
 
-import { AuthService } from '../auth/auth.service';
+import * as fromApp from '../store/app.reducers';
+import * as fromAuth from '../auth/store/auth.reducers';
+import * as AuthActions from '../auth/store/auth.actions';
 
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html'
 })
-export class HeaderComponent implements OnDestroy{
-  private _subscription: Subscription;
+export class HeaderComponent implements OnInit{
+  authState: Observable<fromAuth.State>;
   
-  constructor(private router: Router, private authService: AuthService, private changeDetectorRef: ChangeDetectorRef) {
-    this._subscription = authService.tokenChange.subscribe((value: string) => {
-      changeDetectorRef.detectChanges();
-    });
+  constructor(private router: Router, private store: Store<fromApp.AppState>) {}
+
+  ngOnInit() {
+    this.authState = this.store.select('auth');
   }
 
   onLogout() {
-    this.authService.logout();
-    this.router.navigate(['/signin']);
+    this.store.dispatch(new AuthActions.Logout());
   }
 
-  ngOnDestroy(){
-    this._subscription.unsubscribe();
-  }
 }

@@ -182,13 +182,13 @@ export class HomeComponent implements OnInit, AfterViewInit {
       this.vectorSource.addFeature(feature);
     }, this);
 
-    var count = 2000;
+    /*var count = 2000;
     var e = 4500000;
       for (var i = 0; i < count; ++i) {
         var coordinates = [2 * e * Math.random() - e, 2 * e * Math.random() - e];
         this.vectorSource.addFeature( new ol.Feature(new ol.geom.Point(coordinates)));
       }
-
+*/
   }
 
   onMouseOver(event){

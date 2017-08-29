@@ -1,3 +1,4 @@
+import { AuthEffects } from './auth/store/auth.effects';
 import { FreeChartComponent } from './home/chart.component.1';
 import { ChartComponent } from './home/chart.component';
 import { NgModule } from '@angular/core';
@@ -58,7 +59,7 @@ export function provideClient(): ApolloClient {
         ChartModule.forRoot(require('highcharts')), // TODO delete, it is payed
         ApolloModule.forRoot(provideClient),
         StoreModule.forRoot(reducers),
-        EffectsModule.forRoot([AlertEffects]),
+        EffectsModule.forRoot([AlertEffects, AuthEffects]),
         StoreRouterConnectingModule,
         StoreDevtoolsModule.instrument() // TODO only for development
     ],
