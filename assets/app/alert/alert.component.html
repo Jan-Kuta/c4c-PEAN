@@ -1,4 +1,4 @@
-<div *ngIf="(alertState | async).message" [ngClass]="{ 'alert': (alertState | async).message, 'alert-success': (alertState | async).type === 'success', 'alert-danger': (alertState | async).type === 'error' }">
+<div class="text-center" *ngIf="(alertState | async).message" [ngClass]="{ 'alert': (alertState | async).message, 'alert-success': (alertState | async).type === 'success', 'alert-danger': (alertState | async).type === 'error' }">
     <a href="javascript:void(0)" class="close" aria-label="close" (click)="hide()" >&times;</a>
     {{(alertState | async).message}}
 </div>

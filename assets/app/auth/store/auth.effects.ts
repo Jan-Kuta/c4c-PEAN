@@ -8,7 +8,6 @@ import 'rxjs/add/operator/map';
 import 'rxjs/add/operator/do';
 import 'rxjs/add/operator/switchMap';
 import 'rxjs/add/operator/mergeMap';
-import { fromPromise } from 'rxjs/observable/fromPromise';
 
 import * as AuthActions from './auth.actions';
 import * as AlertActions from '../../alert/store/alert.actions';
@@ -39,16 +38,20 @@ export class AuthEffects {
     .map((response: Response) =>{
         return response.json();
       })
-    .mergeMap((token: string) => {
+    .mergeMap((payload: any) => {
+      this.router.navigate(['/']);
       return [
         {
           type: AuthActions.SIGNUP
         },
         {
           type: AuthActions.SET_TOKEN,
-          payload: token
+          payload: payload.token
         }
       ];
+    })
+    .catch((err, orig) => {
+        return orig.startWith(new AlertActions.ShowErrorMessage({message: err.json().message, keepAfterNavigationChange: false}));
     });
 
   @Effect()
@@ -69,7 +72,7 @@ export class AuthEffects {
     .map((response: Response) =>{
         return response.json();
       })
-    .mergeMap((token: string) => {
+    .mergeMap((payload: any) => {
       this.router.navigate(['/']);
       return [
         {
@@ -77,13 +80,13 @@ export class AuthEffects {
         },
         {
           type: AuthActions.SET_TOKEN,
-          payload: token
+          payload: payload.token
         }
       ];
     })
-    /*.catch((err) => {
-        return Observable.of(new AlertActions.ShowErrorMessage({message: err.json().message, keepAfterNavigationChange: false}));
-    });*/
+    .catch((err, orig) => {
+        return orig.startWith(new AlertActions.ShowErrorMessage({message: err.json().message, keepAfterNavigationChange: false}));
+    });
 
   @Effect({dispatch: false})
   authLogout = this.actions$

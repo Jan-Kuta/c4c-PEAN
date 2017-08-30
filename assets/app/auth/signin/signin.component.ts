@@ -3,7 +3,6 @@ import { Router } from '@angular/router';
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 
-import * as AlertActions from '../../alert/store/alert.actions';
 import * as fromApp from '../../store/app.reducers';
 import * as AuthActions from '../store/auth.actions';
 
