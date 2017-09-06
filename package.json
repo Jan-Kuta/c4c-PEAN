@@ -30,6 +30,7 @@
     "angular2-openlayers": "^0.6.7",
     "apollo-angular": "^0.13.0",
     "apollo-client": "^1.9.1",
+    "apollo-client-rxjs": "^0.6.0-rc.1",
     "body-parser": "~1.17.1",
     "chart.js": "^2.6.0",
     "cookie-parser": "~1.4.3",

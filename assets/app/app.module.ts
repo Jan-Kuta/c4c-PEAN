@@ -1,3 +1,4 @@
+import { GuidebookEffects } from './home/store/guidebook.effects';
 import { AuthEffects } from './auth/store/auth.effects';
 import { FreeChartComponent } from './home/chart.component.1';
 import { ChartComponent } from './home/chart.component';
@@ -20,6 +21,7 @@ import { reducers } from './store/app.reducers';
 import { AlertComponent } from './alert/alert.component';
 import { HomeComponent } from './home/home.component';
 import { HomeComponentDeclarative } from './home/home.component.1';
+import { RockComponent} from './home/rock/rock.component'
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { HeaderComponent } from './header/header.component';
@@ -41,6 +43,7 @@ export function provideClient(): ApolloClient {
         AlertComponent,
         HomeComponent,
         HomeComponentDeclarative,
+        RockComponent,
         ChartComponent,
         FreeChartComponent,
         HeaderComponent,
@@ -58,7 +61,7 @@ export function provideClient(): ApolloClient {
         ChartModule.forRoot(require('highcharts')), // TODO delete, it is payed
         ApolloModule.forRoot(provideClient),
         StoreModule.forRoot(reducers),
-        EffectsModule.forRoot([AlertEffects, AuthEffects]),
+        EffectsModule.forRoot([AlertEffects, AuthEffects, GuidebookEffects]),
         StoreRouterConnectingModule,
         StoreDevtoolsModule.instrument() // TODO only for development
     ],

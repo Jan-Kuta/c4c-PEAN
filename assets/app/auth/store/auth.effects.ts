@@ -25,7 +25,7 @@ export class AuthEffects {
     .map((action: AuthActions.TrySignup) => {
       return action.payload;
     })
-    .switchMap((authData: {username: string, email:String, password: string}) => {
+    .switchMap((authData: {username: string, email: string, password: string}) => {
       return this.http.post(
       '/api/user/register', 
       {
@@ -50,9 +50,9 @@ export class AuthEffects {
         }
       ];
     })
-    .catch((err, orig) => {
+    /*.catch((err, orig) => {
         return orig.startWith(new AlertActions.ShowErrorMessage({message: err.json().message, keepAfterNavigationChange: false}));
-    });
+    })*/;
 
   @Effect()
   authSignin = this.actions$
@@ -84,9 +84,9 @@ export class AuthEffects {
         }
       ];
     })
-    .catch((err, orig) => {
+    /*.catch((err, orig) => {
         return orig.startWith(new AlertActions.ShowErrorMessage({message: err.json().message, keepAfterNavigationChange: false}));
-    });
+    })*/;
 
   @Effect({dispatch: false})
   authLogout = this.actions$

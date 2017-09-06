@@ -3,6 +3,7 @@ import { ChartComponent } from './chart.component';
 import { AreaService } from './area.service';
 import { Component, OnInit, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
 
+import { GQL } from '../shared/schema/schema';
 import * as fromApp from '../store/app.reducers';
 import * as AlertActions from '../alert/store/alert.actions';
 
@@ -169,7 +170,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
 
   // add features to the vector
-  getFeatures(areas){
+  getFeatures(areas: GQL.IArea[]){
     this.vectorSource.clear();
 
     areas.forEach(area => {
